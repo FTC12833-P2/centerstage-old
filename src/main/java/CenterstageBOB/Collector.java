@@ -15,17 +15,6 @@ public class Collector {
     }
 
     public void collect() {
-//        if (opMode.gamepad2.right_bumper) {
-//            leftWheel.setPower(-1);
-//            rightWheel.setPower(-1);
-//        } else if (opMode.gamepad2.left_bumper) {
-//            leftWheel.setPower(1);
-//            rightWheel.setPower(1);
-//        } else {
-//            leftWheel.setPower(0);
-//            rightWheel.setPower(0);
-//        }
-
         if (opMode.gamepad2.right_trigger > 0.1) {
             leftWheel.setPower(-opMode.gamepad2.right_trigger);
             rightWheel.setPower(-opMode.gamepad2.right_trigger);

@@ -12,6 +12,8 @@ public class Drivetrain {
     private DcMotorEx blMotor = null;
     private DcMotorEx brMotor = null;
 
+    public AprilTags aprilTags;
+
     private Gamepad currentGamepad1;
     private Gamepad previousGamepad1;
     boolean isSlow = false;
@@ -71,6 +73,8 @@ public class Drivetrain {
 
         flMotor.setDirection(DcMotorEx.Direction.REVERSE);
         blMotor.setDirection(DcMotorEx.Direction.REVERSE);
+
+        aprilTags = new AprilTags(opMode);
     }
 }
 

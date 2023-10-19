@@ -22,7 +22,10 @@ public class TeleOp extends LinearOpMode {
 
         while(opModeIsActive()){
             robot.drivetrain.driveWithSticks();
-            robot.collector.collect();
+            //robot.collector.collect();
+            robot.drivetrain.aprilTags.aprilTagCam();
+            telemetry.update();
         }
+        robot.drivetrain.aprilTags.visionPortal.close();
     }
 }

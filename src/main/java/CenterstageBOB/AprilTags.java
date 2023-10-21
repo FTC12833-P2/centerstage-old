@@ -14,23 +14,16 @@ import java.util.List;
 
 public class AprilTags {
     private final LinearOpMode opMode;
+
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
+    public AprilTagProcessor aprilTagProcessor;
+    public VisionPortal visionPortal;
 
     public AprilTags(LinearOpMode opMode) {
         this.opMode = opMode;
 
         initAprilTag();
     }
-
-    /**
-     * The variable to store our instance of the AprilTag processor.
-     */
-    private AprilTagProcessor aprilTag;
-
-    /**
-     * The variable to store our instance of the vision portal.
-     */
-    public VisionPortal visionPortal;
 
     public void aprilTagCam() {
         telemetryAprilTag();
@@ -50,7 +43,7 @@ public class AprilTags {
      */
     private void initAprilTag() {
         // Create the AprilTag processor.
-        aprilTag = new AprilTagProcessor.Builder()
+        aprilTagProcessor = new AprilTagProcessor.Builder()
                 .setDrawAxes(true)
                 .setDrawCubeProjection(true)
                 //.setDrawTagOutline(true)
@@ -67,21 +60,15 @@ public class AprilTags {
 
                 .build();
 
-        // Create the vision portal by using a builder.
         VisionPortal.Builder builder = new VisionPortal.Builder();
 
-        // Set the camera (webcam vs. built-in RC phone camera).
-        if (USE_WEBCAM) {
-            builder.setCamera(opMode.hardwareMap.get(WebcamName.class, "Webcam 1"));
-        } else {
-            builder.setCamera(BuiltinCameraDirection.BACK);
-        }
 
-        // Choose a camera resolution. Not all cameras support all resolutions.
+            builder.setCamera(opMode.hardwareMap.get(WebcamName.class, "Webcam 1"));
+
         builder.setCameraResolution(new Size(960, 720));
 
         // Set and enable the processor.
-        builder.addProcessor(aprilTag);
+        builder.addProcessor(aprilTagProcessor);
 
         // Build the Vision Portal, using the above settings.
         visionPortal = builder.build();
@@ -91,6 +78,7 @@ public class AprilTags {
         opMode.telemetry.addData(">", "Touch Play to start OpMode");
         opMode.telemetry.update();
 
+        opMode.sleep(1000);
     }   // end method initAprilTag()
 
     /**
@@ -98,7 +86,7 @@ public class AprilTags {
      */
     private void telemetryAprilTag() {
 
-        List<AprilTagDetection> currentDetections = aprilTag.getDetections();
+        List<AprilTagDetection> currentDetections = aprilTagProcessor.getDetections();
         opMode.telemetry.addData("# AprilTags Detected", currentDetections.size());
 
         // Step through the list of detections and display info for each one.
